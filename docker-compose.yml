@@ -5,8 +5,8 @@ services:
     image: postgres:14.1-alpine
     restart: always
     environment:
-      - POSTGRES_USER={spring.datasource.username}
-      - POSTGRES_PASSWORD={spring.datasource.password}
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
     ports:
       - '5432:5432'
     volumes:
