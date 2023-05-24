@@ -71,4 +71,21 @@ class UserRepositoryAdapterIT {
         verify(exactly = 0) { mapper.toEntity(any()) }
         verify(exactly = 1) { mapper.toDomain(any()) }
     }
+
+    @Test
+    fun `updateUserPassword - should save successfully`() {
+        val mockedUser = UserMother.validModel()
+
+        every { mapper.toEntity(any()) } returns UserEntityMother.validEntity()
+        every { repository.save(any()) } returns UserEntityMother.validEntity()
+        every { mapper.toDomain(any()) } returns mockedUser
+
+        assertNotNull(
+            userRepositoryAdapter.updateUserPassword(mockedUser)
+        )
+
+        verify(exactly = 1) { repository.save(any()) }
+        verify(exactly = 1) { mapper.toEntity(any()) }
+        verify(exactly = 1) { mapper.toDomain(any()) }
+    }
 }

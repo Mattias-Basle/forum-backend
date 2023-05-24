@@ -3,24 +3,23 @@ package com.example.forum.users.adapter.controller
 import com.example.forum.users.adapter.controller.dto.CreateUserRequestDto
 import com.example.forum.users.adapter.controller.dto.CreateUserResponseDto
 import com.example.forum.users.adapter.controller.dto.FindUserByNameResponseDto
+import com.example.forum.users.adapter.controller.dto.UpdateUserPasswordRequestDto
 import com.example.forum.users.domain.port.command.CreateUserCommand
 import com.example.forum.users.domain.port.command.FindUserCommand
+import com.example.forum.users.domain.port.command.UpdateUserPasswordCommand
 import com.example.forum.users.domain.usecase.CreateUserUseCase
 import com.example.forum.users.domain.usecase.FindUserUseCase
+import com.example.forum.users.domain.usecase.UpdateUserUseCase
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/v1/user")
 class UserController(
     private val createUserUseCase: CreateUserUseCase,
-    private val findUserUseCase: FindUserUseCase
+    private val findUserUseCase: FindUserUseCase,
+    private val updateUserUseCase: UpdateUserUseCase
 ) {
     @PostMapping(produces = ["application/json"])
     fun createUser(
@@ -47,5 +46,19 @@ class UserController(
         return ResponseEntity.ok(
             FindUserByNameResponseDto(user)
         )
+    }
+
+    @PutMapping("/{name}")
+    fun updateUserPassword(
+        @RequestParam("name")
+        name: String,
+        @RequestBody
+        request: UpdateUserPasswordRequestDto
+    ): ResponseEntity<Unit> {
+        updateUserUseCase.updatePassword(
+            UpdateUserPasswordCommand(name, request.newPassword)
+        )
+
+        return ResponseEntity.noContent().build()
     }
 }
