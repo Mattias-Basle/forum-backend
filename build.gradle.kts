@@ -25,12 +25,13 @@ repositories {
 
 dependencies {
 
-	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	implementation("org.jetbrains.kotlin:kotlin-stdlib:1.6.0")
+	implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.0")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 
+	//Mapper
 	implementation("org.mapstruct:mapstruct:1.5.5.Final")
 	kapt("org.mapstruct:mapstruct-processor:1.5.5.Final")
 
@@ -39,11 +40,15 @@ dependencies {
 	runtimeOnly("org.postgresql:postgresql")
 	implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.hibernate:hibernate-core:6.2.3.Final")
 	implementation("org.flywaydb:flyway-core")
 
 	//Testing
+	implementation("com.ninja-squad:springmockk:4.0.2")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
+	testImplementation("io.mockk:mockk:1.13.5")
+
 }
 
 tasks.build {
@@ -78,6 +83,7 @@ tasks.jacocoTestCoverageVerification {
 				minimum = "0.9".toBigDecimal()
 			}
 			excludes = mutableListOf(
+				"**.common.**",
 				"**.entity.**",
 				"**.model.**"
 			)

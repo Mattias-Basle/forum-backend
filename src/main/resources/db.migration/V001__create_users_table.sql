@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS users (
     id BIGINT auto_increment,
-    uuid UUID,
+    uuid UUID NOT NULL,
     name TEXT,
     password TEXT,
     created_at TIMESTAMP,

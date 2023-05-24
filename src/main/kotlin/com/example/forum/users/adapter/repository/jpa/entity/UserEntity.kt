@@ -1,11 +1,7 @@
 package com.example.forum.users.adapter.repository.jpa.entity
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import jakarta.persistence.*
+import org.hibernate.annotations.Type
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -17,6 +13,7 @@ data class UserEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long,
 
+    @Column(name = "uuid", unique = true, updatable = false, columnDefinition = "UUID NOT NULL")
     val uuid: UUID,
 
     val name: String,

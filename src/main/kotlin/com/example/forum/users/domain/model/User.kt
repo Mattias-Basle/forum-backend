@@ -7,6 +7,6 @@ data class User(
     val uuid: UUID,
     val name: String,
     val password: String,
-    val createdAt: LocalDateTime? = LocalDateTime.now(),
-    val updatedAt: LocalDateTime? = LocalDateTime.now(),
+    val createdAt: LocalDateTime = LocalDateTime.now(),
+    val updatedAt: LocalDateTime = LocalDateTime.now()
 )

@@ -2,6 +2,8 @@ package com.example.forum.users.adapter.repository.jpa
 
 import com.example.forum.users.adapter.repository.jpa.mapper.UserMapper
 import com.example.forum.users.domain.model.User
+import com.example.forum.users.domain.port.CreateUserPort
+import com.example.forum.users.domain.port.FindUserPort
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
@@ -10,13 +12,17 @@ import org.springframework.transaction.annotation.Transactional
 class UserRepositoryAdapter(
     private val repository: UserRepository,
     private val mapper: UserMapper
-) {
+): CreateUserPort, FindUserPort {
 
     @Transactional
-    fun create(user: User): User {
+    override fun create(user: User): User {
         val entity = mapper.toEntity(user)
         val savedEntity = repository.save(entity)
 
         return mapper.toDomain(savedEntity)
     }
+
+    override fun findByName(name: String) = this.repository
+        .findByName(name)
+        ?.let { mapper.toDomain(it) }
 }
